@@ -10,6 +10,7 @@ function settingsKeyboard(hasFamily: boolean) {
   return inlineKeyboard(hasFamily ? [
     [inlineButton("Add a habit", "admin:habit:add"), inlineButton("Manage habits", "admin:habit:list")],
     [inlineButton("Set reminder time", "admin:reminder:time"), inlineButton("Toggle reminders", "admin:reminder:toggle")],
+    [inlineButton("Toggle media sharing", "admin:media:toggle")],
     [inlineButton("Share join link", "admin:invite")],
     [inlineButton("Back to menu", "menu:main")],
   ] : [[inlineButton("Create family", "admin:family:create")], [inlineButton("Back to menu", "menu:main")]]);
@@ -19,7 +20,7 @@ composer.callbackQuery("admin:settings", async (ctx) => {
   if (!(await requireOwner(ctx))) return;
   await ctx.answerCallbackQuery();
   const found = await familyForMember(ctx);
-  await ctx.reply(found ? `Your family settings are ready. Reminders are ${found.family.remindersEnabled ? "on" : "off"}.` : "Start by creating your family. You can add habits and reminders next.", { reply_markup: settingsKeyboard(Boolean(found)) });
+  await ctx.reply(found ? `Your family settings are ready. Reminders are ${found.family.remindersEnabled ? "on" : "off"}, and media sharing is ${found.family.mediaSharingEnabled ? "on" : "off"}.` : "Start by creating your family. You can add habits and reminders next.", { reply_markup: settingsKeyboard(Boolean(found)) });
 });
 
 composer.callbackQuery("admin:family:create", async (ctx) => {
@@ -56,6 +57,18 @@ composer.callbackQuery("admin:reminder:toggle", async (ctx) => {
 composer.callbackQuery("admin:reminder:time", async (ctx) => {
   if (!(await requireOwner(ctx))) return; await ctx.answerCallbackQuery(); if (!(await familyForMember(ctx))) { await ctx.reply("Create your family first."); return; }
   ctx.session.step = "reminder_time"; await ctx.reply("What time should reminders arrive? Send HH:MM in your local time.");
+});
+
+composer.callbackQuery("admin:media:toggle", async (ctx) => {
+  if (!(await requireOwner(ctx))) return;
+  await ctx.answerCallbackQuery();
+  const found = await familyForMember(ctx);
+  if (!found) { await ctx.reply("Create your family first."); return; }
+  found.family.mediaSharingEnabled = !found.family.mediaSharingEnabled;
+  await updateFamily(ctx, found.family);
+  await ctx.reply(found.family.mediaSharingEnabled
+    ? "Family media sharing is on. Members can open shared check-in photos and videos."
+    : "Family media sharing is off. Check-ins stay private while their progress still counts.", { reply_markup: settingsKeyboard(true) });
 });
 
 composer.callbackQuery("admin:invite", async (ctx) => {
