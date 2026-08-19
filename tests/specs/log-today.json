@@ -7,7 +7,7 @@
           {
             "method": "sendMessage",
             "payload": {
-              "text": "Open habit selection buttons for current day"
+              "text": "You’re not in a family yet — ask a parent for the join link."
             }
           }
         ],

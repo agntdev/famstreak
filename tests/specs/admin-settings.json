@@ -7,7 +7,7 @@
           {
             "method": "sendMessage",
             "payload": {
-              "text": "Configure habits and reminders (parent-only)"
+              "text": "Owner access isn't set up yet."
             }
           }
         ],
