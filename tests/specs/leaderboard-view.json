@@ -1,0 +1,20 @@
+[
+  {
+    "name": "View Leaderboard",
+    "steps": [
+      {
+        "expect": [
+          {
+            "method": "sendMessage",
+            "payload": {
+              "text": "Show top 10 family members by points"
+            }
+          }
+        ],
+        "send": {
+          "callback": "leaderboard:view"
+        }
+      }
+    ]
+  }
+]
