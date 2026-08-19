@@ -14,6 +14,7 @@ import { webhookCallback, Composer, type Bot } from "grammy";
 import { buildBot, type Ctx } from "./bot.js";
 import { handlers } from "./handlers.generated.js";
 import { createDurableSessionStorage, type WorkerEnv } from "./toolkit/session/durable.js";
+import { sendWeeklySummary } from "./habits.js";
 
 export { ChatDO } from "./toolkit/session/durable.js";
 
@@ -80,5 +81,11 @@ export default {
     }
 
     return new Response("not found", { status: 404 });
+  },
+  // Configure the Worker with a Sunday 08:00 UTC cron trigger. The summary
+  // resolves its single family through the owner/member index, so this work is
+  // bounded even as unrelated families grow.
+  async scheduled(_event: unknown, env: WorkerEnv): Promise<void> {
+    await sendWeeklySummary(env);
   },
 };

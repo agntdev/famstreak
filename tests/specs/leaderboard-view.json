@@ -7,7 +7,7 @@
           {
             "method": "sendMessage",
             "payload": {
-              "text": "Show top 10 family members by points"
+              "text": "No family leaderboard yet — join your family first."
             }
           }
         ],
