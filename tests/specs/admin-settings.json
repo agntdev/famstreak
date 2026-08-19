@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Admin Settings",
+    "steps": [
+      {
+        "expect": [
+          {
+            "method": "sendMessage",
+            "payload": {
+              "text": "Configure habits and reminders (parent-only)"
+            }
+          }
+        ],
+        "send": {
+          "callback": "admin:settings"
+        }
+      }
+    ]
+  }
+]
