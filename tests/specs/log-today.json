@@ -17,4 +17,19 @@
       }
     ]
   }
+  ,
+  {
+    "name": "A member can cancel a media check-in",
+    "steps": [
+      {
+        "send": { "callback": "check:cancel" },
+        "expect": [
+          {
+            "method": "sendMessage",
+            "payload": { "text": "No check-in was saved. Tap Log today whenever you’re ready." }
+          }
+        ]
+      }
+    ]
+  }
 ]

@@ -6,10 +6,14 @@ import type { StorageAdapter } from "grammy";
 // bot grows. Durable domain data must NOT live here — use the toolkit's
 // persistent storage (see AGENTS.md).
 export interface Session {
-  step?: "family_name" | "member_name" | "habit_name" | "habit_goal" | "reminder_time" | "retro_date" | "retro_value";
+  step?: "family_name" | "member_name" | "habit_name" | "habit_goal" | "reminder_time" | "retro_date" | "retro_value" | "check_reflection";
   pendingInvite?: string;
   pendingHabit?: string;
   pendingDate?: string;
+  pendingValue?: number;
+  pendingMediaType?: "photo" | "video" | "none";
+  pendingMediaFileId?: string;
+  pendingThumbnailFileId?: string;
 }
 
 export type Ctx = BotContext<Session>;
